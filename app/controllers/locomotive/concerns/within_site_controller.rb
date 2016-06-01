@@ -49,7 +49,7 @@ module Locomotive
               before_action :validate_site_membership, if: :current_site?
             end
 
-            around_action :set_timezone, if: :current_site?
+            before_action :set_timezone, if: :current_site?
 
             before_action :set_current_content_locale, if: :current_site?
           end

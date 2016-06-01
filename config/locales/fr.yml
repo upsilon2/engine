@@ -43,10 +43,10 @@ fr:
         translations: Traductions
       list:
         untranslated: Non traduit
-        created_at: "Créé il y a %{distance}"
-        created_by: "Créé il y a %{distance} par %{who}"
-        updated_at: "Dernière modification il y a %{distance}"
-        updated_by: "Dernière modification il y a %{distance} par %{who}"
+        created_at: "Créé %{distance}"
+        created_by: "Créé %{distance} par %{who}"
+        updated_at: "Dernière modification %{distance}"
+        updated_by: "Dernière modification %{distance} par %{who}"
       rte:
         toolbar:
           table:

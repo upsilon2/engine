@@ -163,8 +163,22 @@ body.live-editing .drawer {
       right: 15px;
       bottom: 10px;
 
+      a.select {
+        display: none;
+      }
+
       a.remove {
         color: $asset_remove_icon_color;
+      }
+    }
+  }
+
+  &[data-enable-select] {
+    .asset {
+      .actions {
+        a.select {
+          display: inline;
+        }
       }
     }
   }

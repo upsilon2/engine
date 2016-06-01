@@ -6,33 +6,35 @@
 
 - else
   - # Display the assets
-  .content-assets-list
+  .content-assets-list data-enable-select=enable_select data-remote=remote data-params=content_assets_path(current_site, params.slice(:types, :query, :page, :per_page)).split('?').last
     - @content_assets.each do |asset|
-      .asset
-        .top
-          h2= asset_filename(asset)
-          .size= human_asset_size(asset)
+      - cache base_cache_key + [asset] do
 
-        .body
-          .small-thumbnail
-            - if asset_with_thumbnail?(asset)
-              = image_tag asset.alternative_vignette_url
-            - else
-              div class="not-a-image #{asset.content_type}"
-                span= asset_text(asset)
+        .asset
+          .top
+            h2= asset_filename(asset)
+            .size= human_asset_size(asset)
 
-        .actions
-          - if enable_select
+          .body
+            .small-thumbnail
+              - if asset_with_thumbnail?(asset)
+                = image_tag asset.alternative_vignette_url
+              - else
+                div class="not-a-image #{asset.content_type}"
+                  span= asset_text(asset)
+
+          .actions
             = link_to t('.buttons.select'), asset.source.url, class: 'btn btn-primary btn-sm select', title: asset_filename(asset), data: { image: asset.image? }
+
             | &nbsp;
 
-          - if asset.image?
-            = link_to t('.buttons.edit'), edit_content_asset_path(current_site, asset._id), class: 'btn btn-primary btn-sm edit'
+            - if asset.image?
+              = link_to t('.buttons.edit'), edit_content_asset_path(current_site, asset._id), class: 'btn btn-primary btn-sm edit'
 
-          | &nbsp;&nbsp;
+            | &nbsp;&nbsp;
 
-          = link_to content_asset_path(current_site, asset, params.slice(:types, :query, :page, :per_page)), class: 'remove', method: :delete, data: { confirm: t('locomotive.messages.confirm'), return_url: request.original_url }, title: t(:delete, scope: 'simple_form.buttons.defaults.locomotive'), remote: remote do
-            i.fa.fa-trash-o
+            = link_to content_asset_path(current_site, asset), class: 'remove', method: :delete, data: { confirm: t('locomotive.messages.confirm') }, title: t(:delete, scope: 'simple_form.buttons.defaults.locomotive') do
+               i.fa.fa-trash-o
 
   .text-center
     = paginate @content_assets, theme: 'twitter-bootstrap-3', pagination_class: 'pagination-sm', remote: remote

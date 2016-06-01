@@ -119,7 +119,7 @@ module Locomotive
       {
         as:           :array,
         template:     {
-          path:   'locomotive/content_entries/entry',
+          path:   'locomotive/content_entries/content_entry_in_field',
           locals: { field: field, slug: slug }
         },
         wrapper_html: { class: 'has_many' },
@@ -144,7 +144,7 @@ module Locomotive
         as:           :array,
         collection:   entry.send(field.name).filtered,
         template:     {
-          path:   'locomotive/content_entries/entry',
+          path:   'locomotive/content_entries/content_entry_in_field',
           locals: { field: field, slug: slug }
         },
         template_url: show_in_form_content_entries_path(current_site, slug, parent_slug: entry.content_type.slug, field_id: field._id),

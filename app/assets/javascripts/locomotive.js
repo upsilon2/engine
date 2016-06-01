@@ -15,6 +15,7 @@
 //= require moment/moment
 //= require moment-timezone/moment-timezone
 //= require eonasdan-bootstrap-datetimepicker/bootstrap-datetimepicker
+//= require rails-timeago-all
 //= require codemirror
 //= require codemirror/modes/markdown
 //= require nprogress

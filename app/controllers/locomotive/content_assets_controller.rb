@@ -18,12 +18,12 @@ module Locomotive
     def create
       authorize Locomotive::ContentAsset
       @content_asset = current_site.content_assets.create(content_asset_params)
-      respond_with @content_asset, location: content_assets_path
+      respond_with @content_asset, location: content_assets_path(current_site)
     end
 
     def bulk_create
       @content_assets = service.bulk_create(content_assets_params)
-      respond_with @content_assets, location: content_assets_path
+      respond_with @content_assets, location: content_assets_path(current_site)
     end
 
     def edit
@@ -42,7 +42,7 @@ module Locomotive
             load_content_assets
             render_index
           else
-            redirect_to content_assets_path
+            redirect_to content_assets_path(current_site, params.slice(:types, :query, :page, :per_page))
           end
         end
       end

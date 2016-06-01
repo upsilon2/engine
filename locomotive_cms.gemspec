@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'flash_cookie_session',            '~> 1.1.1'
   s.add_dependency 'bootstrap-sass',                  '~> 3.3.6'
   s.add_dependency 'autoprefixer-rails',              '~> 6.3.3.1'
+  s.add_dependency 'rails-timeago',                   '~> 2.13.0'
 
   s.add_dependency 'font-awesome-sass',               '~> 4.5.0'
   s.add_dependency 'nprogress-rails',                 '~> 0.1.6.7'

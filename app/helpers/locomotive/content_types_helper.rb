@@ -18,7 +18,7 @@ module Locomotive
         link_to label, link  # default one
       else
         assigns   = { 'site' => current_site, 'entry' => entry.to_liquid(content_type), 'link' => link, 'today' => Date.today, 'now' => Time.zone.now }
-        registers = { site: current_site, locale: ::Mongoid::Fields::I18n.locale.to_s, services: Locomotive::Steam::Services.build_instance }
+        registers = { site: current_site, locale: current_content_locale.to_s, services: Locomotive::Steam::Services.build_instance }
         context   = ::Liquid::Context.new({}, assigns, registers)
 
         content_type.render_entry_template(context).html_safe
@@ -38,6 +38,10 @@ module Locomotive
       fields = content_type.entries_custom_fields.where(:type.in => allowed_types)
 
       fields.map { |field| [field.label, field._id] }
+    end
+
+    def content_type_cache_key_for_entry(content_type)
+      Digest::MD5.hexdigest(content_type.slug, content_type.entry_template)
     end
 
   end

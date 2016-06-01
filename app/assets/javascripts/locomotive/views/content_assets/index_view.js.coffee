@@ -20,6 +20,7 @@ class Locomotive.Views.ContentAssets.IndexView extends Backbone.View
     @dropzone.render()
     @automatic_sidebar_max_height()
     @set_sidebar_max_height()
+    @enable_remove_buttons()
     super
 
   open_edit_drawer: (event) ->
@@ -59,6 +60,11 @@ class Locomotive.Views.ContentAssets.IndexView extends Backbone.View
 
       $(@dropzone.el).height(max_height)
     ), 20
+
+  enable_remove_buttons: ->
+    params = @$('.content-assets-list').data('params')
+    @$('.asset a.remove').each ->
+      $(this).attr('href', "#{$(this).attr('href')}?#{params}")
 
   remove: ->
     $(window).off 'resize', @set_sidebar_max_height

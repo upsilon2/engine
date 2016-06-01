@@ -33,6 +33,7 @@ require 'codemirror/rails'
 require 'jquery/rails'
 require 'jquery-ui-rails'
 require 'nprogress-rails'
+require 'rails-timeago'
 
 require 'grape'
 require 'grape-entity'

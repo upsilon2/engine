@@ -4,8 +4,8 @@ module Locomotive
 
       protected
 
-      def set_timezone(&block)
-        Time.use_zone(current_site.try(:timezone) || 'UTC', &block)
+      def set_timezone
+        Time.zone = current_site.try(:timezone) || 'UTC'
       end
 
     end

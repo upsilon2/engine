@@ -1,0 +1,16 @@
+- cache [Locomotive::VERSION, locale, current_content_locale, content_type, content_entry] do
+
+  .item.col-md-12 data-id=content_entry._id
+    - if content_type.order_manually?
+      .draggable
+        i.fa.fa-bars.draggable
+
+    .text
+      .item-label
+        = entry_label(content_type, content_entry)
+      .stamp
+        == document_stamp(content_entry)
+
+    .actions
+      = link_to content_entry_path(current_site, content_type.slug, content_entry), title: t(:delete, scope: 'simple_form.buttons.defaults.locomotive'), class: 'remove', data: { confirm: t('locomotive.messages.confirm') }, method: :delete do
+        i.fa.fa-trash-o

@@ -26,13 +26,21 @@ class Locomotive.Views.ContentAssets.PickerView extends Backbone.View
     super
 
   ajaxify: ->
+    @enable_remove_buttons()
+
     for selector in @ajaxified_elements
       $(@el).on 'ajax:success', selector, (event, data, status, xhr) =>
         @$('.updatable').html($(data).find('.updatable').html())
+        @enable_remove_buttons()
 
   unajaxify: ->
     for selector in @ajaxified_elements
       $(@el).off 'ajax:success', selector
+
+  enable_remove_buttons: ->
+    params = @$('.content-assets-list').data('params')
+    @$('.asset a.remove').each ->
+      $(this).data('remote', true).attr('href', "#{$(this).attr('href')}?#{params}")
 
   select: (event) ->
     console.log '[PickerView] select'

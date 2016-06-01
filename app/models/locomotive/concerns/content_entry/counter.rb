@@ -14,11 +14,21 @@ module Locomotive
         end
 
         def inc_number_of_entries
-          self.content_type.inc(number_of_entries: 1)
+          change_number_of_entries(1)
         end
 
         def dec_number_of_entries
-          self.content_type.inc(number_of_entries: -1)
+          change_number_of_entries(-1)
+        end
+
+        def change_number_of_entries(delta)
+          Locomotive::ContentType.collection.update_one(
+            { _id: self.content_type_id },
+            {
+              '$inc' => { 'number_of_entries' => delta },
+              '$set' => { 'updated_at' => Time.zone.now }
+            }
+          )
         end
 
       end

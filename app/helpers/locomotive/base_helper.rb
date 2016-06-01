@@ -152,7 +152,7 @@ module Locomotive
     # @return [ String ] The HTML image tag with the path to the matching flag.
     #
     def flag_tag(locale, size = '24x24')
-      image_tag("locomotive/icons/flags/#{locale}.png", class: "flag flag-#{locale}", size: size)
+      %(<i class="flag flag-#{locale} flag-#{size.gsub('x', '-')}"></i>).html_safe
     end
 
     def nocoffee_tag
@@ -224,7 +224,7 @@ module Locomotive
     # @return [ String ] The html output
     #
     def document_stamp(document)
-      distance  = distance_of_time_in_words_to_now(document.updated_at)
+      distance  = timeago_tag(document.updated_at, lang: locale, force: true)
       update    = document.updated_at && document.updated_at != document.created_at
 
       if account = (document.updated_by || document.created_by)
@@ -239,20 +239,37 @@ module Locomotive
 
     # cache keys
 
-    def cache_key_for_sidebar
-      "#{Locomotive::VERSION}/site/#{current_site._id}/sidebar/#{current_site.last_modified_at.to_i}/role/#{current_membership.role}/locale/#{::Mongoid::Fields::I18n.locale}"
+    # def cache_key_for_sidebar
+    #   [Locomotive::VERSION, current_site._id, current_site.last_modified_at.to_i, current_membership.role, locale, current_content_locale]
+    # end
+
+    def base_cache_key
+      [
+        Locomotive::VERSION,
+        current_site._id,
+        current_site.handle,
+        locale
+      ]
+    end
+
+    def base_cache_key_with_content_locale
+      base_cache_key + [current_content_locale]
+    end
+
+    def base_cache_key_for_sidebar
+      base_cache_key + [current_membership.role]
     end
 
     def cache_key_for_sidebar_pages
       count          = current_site.pages.count
       max_updated_at = current_site.pages.max(:updated_at).try(:utc).try(:to_s, :number).to_i
-      "#{Locomotive::VERSION}/site/#{current_site._id}/#{current_site.handle}/sidebar/pages-#{count}-#{max_updated_at}/locale/#{::Mongoid::Fields::I18n.locale}"
+      base_cache_key_for_sidebar + [current_content_locale, 'pages', count, max_updated_at]
     end
 
     def cache_key_for_sidebar_content_types
-      count          = current_site.content_types.count
-      max_updated_at = current_site.content_entries.max(:updated_at).try(:utc).try(:to_s, :number).to_i
-      "#{Locomotive::VERSION}/site/#{current_site._id}/#{current_site.handle}/sidebar/content_types-#{count}-#{max_updated_at}"
+      count           = current_site.content_types.count
+      max_updated_at  = current_site.content_types.max(:updated_at).try(:utc).try(:to_s, :number).to_i
+      base_cache_key_for_sidebar + ['content_types', count, max_updated_at]
     end
 
   end

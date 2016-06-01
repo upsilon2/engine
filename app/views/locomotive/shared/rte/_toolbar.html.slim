@@ -60,11 +60,11 @@
     a data-wysihtml5-command='removeLink'
       i.fa.fa-chain-broken
 
-    a data-url=content_assets_path(types: 'image') data-wysihtml5-command='insertImage'
+    a data-url=content_assets_path(current_site, types: 'image') data-wysihtml5-command='insertImage'
       i.fa.fa-picture-o
     = image_popover
 
-    a data-url=content_assets_path data-wysihtml5-command='insertFile'
+    a data-url=content_assets_path(current_site) data-wysihtml5-command='insertFile'
       i.fa.fa-paperclip
     = image_popover
 
